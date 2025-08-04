@@ -1,135 +1,167 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Инженерный код по VIN</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 20px;
-      border-radius: 10px;
-      background-color: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background-color: #007bff;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    pre {
-      background: #eee;
-      padding: 10px;
-      border-radius: 5px;
-      overflow-x: auto;
-      white-space: pre-wrap;
-    }
-  </style>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta property="og:title" content="Генератор кодов для инженерного меню Deepal S07">
+    <meta property="og:description" content="Вычислитель SHA256-кодов для входа в инженерное меню по VIN и дате. Поддержка смещений и кодов на следующий день.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/vladpopovv">
+    <meta name="description" content="Генератор кодов для входа в инженерное меню Deepal S07 по VIN и дате. Поддержка смещений, SHA256, оффлайн-работа.">
+    <meta name="keywords" content="Deepal S07, дипал, дипал код, инженерное меню, VIN код, SHA256, генератор кодов, автомобильные коды, Shenlan, Changan, S7, S07, инженерный доступ">
+    <meta name="author" content="vladpopovv">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepal S07 код инженерного меню</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      h1 {
+        text-align: center;
+        font-size: 1.5em;
+      }
+      label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+      }
+      input {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1em;
+      }
+      button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        font-size: 1em;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      pre {
+        background: #eee;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-size: 0.95em;
+      }
+    </style>
 </head>
 <body>
-  <h1>Генератор кодов для входа в инженерное меню Deepal S07</h1>
+<div class="container">
+    <h1>Deepal S07 код инженерного меню</h1>
 
-  <label for="vin">Последние 4 цифры VIN:</label>
-  <input type="text" id="vin" maxlength="4" placeholder="например: 3506">
+    <label for="vin">Последние 4 цифры VIN:</label>
+    <input type="text" id="vin" maxlength="4" placeholder="например: 3506">
 
-  <label for="date">Дата (по Китаю):</label>
-  <input type="date" id="date">
+    <label for="date">Дата (по Китаю):</label>
+    <input type="date" id="date">
 
-  <button onclick="generate()">Сгенерировать код</button>
+    <button onclick="generate()">Сгенерировать код</button>
 
-  <div id="result" style="margin-top: 20px;"></div>
+    <div id="result" style="margin-top: 20px;"></div>
+</div>
 
-  <script>
-    // Автозаполнение сегодняшней даты
-    document.addEventListener("DOMContentLoaded", () => {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      document.getElementById("date").value = `${yyyy}-${mm}-${dd}`;
-    });
+<script>
+	// Автозаполнение сегодняшней даты
+	document.addEventListener("DOMContentLoaded", () => {
+		const today = new Date();
+		const yyyy = today.getFullYear();
+		const mm = String(today.getMonth() + 1).padStart(2, '0');
+		const dd = String(today.getDate()).padStart(2, '0');
+		document.getElementById("date").value = `${yyyy}-${mm}-${dd}`;
+	});
 
-    async function generate() {
-      const vin = document.getElementById("vin").value.trim();
-      const dateStr = document.getElementById("date").value;
-      const resultDiv = document.getElementById("result");
+	async function generate() {
+		const vin = document.getElementById("vin").value.trim();
+		const dateStr = document.getElementById("date").value;
+		const resultDiv = document.getElementById("result");
 
-      if (!/^\d{4}$/.test(vin)) {
-        resultDiv.innerHTML = `<pre>❌ Укажите корректный VIN (4 цифры)</pre>`;
-        return;
-      }
+		if (!/^\d{4}$/.test(vin)) {
+			resultDiv.innerHTML = `<pre>❌ Укажите корректный VIN (4 цифры)</pre>`;
+			return;
+		}
 
-      if (!dateStr) {
-        resultDiv.innerHTML = `<pre>❌ Укажите дату</pre>`;
-        return;
-      }
+		if (!dateStr) {
+			resultDiv.innerHTML = `<pre>❌ Укажите дату</pre>`;
+			return;
+		}
 
-      const date = new Date(dateStr);
-      const outputMain = await calculateCodes(vin, date);
+		const date = new Date(dateStr);
+		const outputMain = await calculateCodes(vin, date);
 
-      const nextDate = new Date(date);
-      nextDate.setDate(date.getDate() + 1);
-      const outputNext = await calculateCodes(vin, nextDate);
+		const nextDate = new Date(date);
+		nextDate.setDate(date.getDate() + 1);
+		const outputNext = await calculateCodes(vin, nextDate);
 
-      resultDiv.innerHTML = `<pre>${outputMain}\n⚠️ Если код не сработал — попробуйте с датой на следующий день:\n\n${outputNext}</pre>`;
-    }
+		resultDiv.innerHTML = `<pre>${outputMain}
+⚠️ Если код не сработал — попробуйте с датой на следующий день:
 
-    async function calculateCodes(vin, date) {
-      const mmdd = String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0');
-      const base = vin + mmdd;
+${outputNext}</pre>`;
+	}
 
-      const encoder = new TextEncoder();
-      const data = encoder.encode(base);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+	async function calculateCodes(vin, date) {
+		const mmdd = String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0');
+		const base = vin + mmdd;
 
-      const day = date.getDate();
-      let output = `📅 Дата: ${date.toLocaleDateString('ru-RU')}  |  VIN: ${vin}\n\n🔬 SHA256:\n${hashHex}\n\n✅ Основной код (сдвиг +1):\n`;
+		const encoder = new TextEncoder();
+		const data = encoder.encode(base);
+		const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+		const hashArray = Array.from(new Uint8Array(hashBuffer));
+		const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-      const centerIndex = day + 1;
-      if (centerIndex >= 0 && centerIndex + 8 <= hashHex.length) {
-        const mainCode = hashHex.slice(centerIndex, centerIndex + 8);
-        output += `➡ ${mainCode}\n`;
-      }
+		const day = date.getDate();
+		let output = `📅 Дата: ${date.toLocaleDateString('ru-RU')}  |  VIN: ${vin}
 
-      output += `\n🔁 Альтернативные варианты:\n`;
-      for (let offset = -2; offset <= 2; offset++) {
-        const start = day + offset;
-        if (start >= 0 && start + 8 <= hashHex.length && offset !== 1) {
-          const code = hashHex.slice(start, start + 8);
-          const label = offset === 0 ? 'по центру' : `сдвиг ${offset > 0 ? '+' : ''}${offset}`;
-          output += `• ${code} (${label})\n`;
-        }
-      }
-      return output;
-    }
-  </script>
+🔬 SHA256:
+${hashHex}
+
+✅ Основной код (сдвиг +1):
+`;
+
+		const centerIndex = day + 1;
+		if (centerIndex >= 0 && centerIndex + 8 <= hashHex.length) {
+			const mainCode = hashHex.slice(centerIndex, centerIndex + 8);
+			output += `➡ ${mainCode}
+`;
+		}
+
+		output += `
+🔁 Альтернативные варианты:
+`;
+		for (let offset = -2; offset <= 2; offset++) {
+			const start = day + offset;
+			if (start >= 0 && start + 8 <= hashHex.length && offset !== 1) {
+				const code = hashHex.slice(start, start + 8);
+				const label = offset === 0 ? 'по центру' : `сдвиг ${offset > 0 ? '+' : ''}${offset}`;
+				output += `• ${code} (${label})
+`;
+			}
+		}
+		return output;
+	}
+</script>
 </body>
 </html>
