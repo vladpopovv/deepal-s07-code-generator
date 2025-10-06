@@ -1,0 +1,117 @@
+body {
+	font-family: Arial, sans-serif;
+	background: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: 800px;
+	margin: 30px auto;
+	padding: 20px;
+	border-radius: 10px;
+	background-color: #fff;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+	text-align: center;
+	font-size: 1.5em;
+}
+
+label {
+	display: block;
+	margin-top: 15px;
+	font-weight: bold;
+}
+
+input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: 1em;
+}
+
+button {
+	margin-top: 20px;
+	width: 100%;
+	padding: 12px;
+	background-color: #007bff;
+	color: white;
+	font-size: 1em;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #0056b3;
+}
+
+pre {
+	background: #eee;
+	padding: 10px;
+	border-radius: 5px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	font-size: 0.95em;
+}
+
+.collapsible {
+	margin-top: 16px;
+}
+
+.collapsible-header {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 14px;
+	background: #f0f4ff;
+	border: 1px solid #cdd8ff;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: bold;
+	color: #000;
+	text-align: left;
+}
+
+.collapsible-header:hover {
+	background: #e6eeff;
+}
+
+.collapsible-content {
+	margin-top: 10px;
+	padding: 14px;
+	border: 1px solid #e6e6e6;
+	border-radius: 8px;
+	background: #fafafa;
+}
+
+.step-media {
+	margin-top: 10px;
+}
+
+.step-figure {
+	margin: 0;
+	padding: 0;
+}
+
+.step-image {
+	max-width: 100%;
+	height: auto;
+	border-radius: 6px;
+	border: 1px solid #e6e6e6;
+}
+
+.step-figure figcaption {
+	margin-top: 6px;
+	font-size: 0.9em;
+	color: #555;
+}
+
+
+
