@@ -3,7 +3,7 @@ import CodeGenerator from './components/CodeGenerator';
 import LanguageGuide from './components/LanguageGuide';
 
 const Collapsible: React.FC<{ title: string, children: React.ReactNode }> = ({ title, children }) => {
-	const [open, setOpen] = useState<boolean>(false);
+	const [open, setOpen] = useState<boolean>(true);
 	return (
 		<div className="collapsible">
 			<button className="collapsible-header" onClick={() => setOpen(!open)}>
