@@ -114,4 +114,14 @@ pre {
 }
 
 
+.footer {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid #e6e6e6;
+    text-align: center;
+    color: #666;
+    font-size: 0.95em;
+}
+
+
 
